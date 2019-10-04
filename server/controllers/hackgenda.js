@@ -36,7 +36,7 @@ class Hackgenda{
   static getCurrency(req,res,next){
     let negara = req.body.negara
     let currency = convert(negara)
-    let harga = 100000 // ini diganti sama harga masing-masing
+    let harga = 1000000 // ini diganti sama harga masing-masing
     axios({
       method:"GET",
       url:"https://currency-exchange.p.rapidapi.com/exchange",

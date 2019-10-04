@@ -36,7 +36,33 @@
             }
         })
         .fail(console.log)
-    }
+
+
+    let negara = req.body.negara
+    let currency = convert(negara)
+    let harga = 1000000 // ini diganti sama harga masing-masing
+    axios({
+      method:"GET",
+      url:"https://currency-exchange.p.rapidapi.com/exchange",
+      headers:{
+        "content-type":"application/octet-stream",
+        "x-rapidapi-host":"currency-exchange.p.rapidapi.com",
+        "x-rapidapi-key":"b7b79cc824mshd189f8cd843325dp183f95jsna2ccbb5d991f"
+      },
+      params:{
+        q:"1.0",
+        from:"IDR",
+        to: currency
+      }
+      })
+      .then((newCurrency)=>{
+        let convert = newCurrency.data * harga 
+        res.status(200).json(convert)
+      })
+      .catch((error)=>{
+        res.status(500).json(error)
+      })
+}
 // })
 function showImg(id){
     $('#main-content').empty()

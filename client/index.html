@@ -37,7 +37,7 @@
     <title>HackGenda</title>
   </head>
   <body>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <nav class="navbar navbar-expand-md navbar-light bg-light">
           <a class="navbar-brand" href="#">Navbar</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -51,8 +51,20 @@
                   </div>
                 </div>
               <input type="text" name="search" class="searchName"><button onclick='searchFunction()'>Search</button>
-                <div class="g-signin2" data-onsuccess="onSignIn" id="signin"></div>
-                <a href="#" onclick="signOut();" id="signout">Sign out</a>
+                  
+                  <a href="#" onclick="signOut();" id="signout">Sign out</a>
+                  <div class="container">
+                      <div class="row">
+                        <div class="col-sm">
+                            <div class="g-signin2" data-onsuccess="onSignIn" id="signin"></div>
+                            <p style="color: red" id="alertEmail">Email anda belum terdaftar, silakan register</p>
+                        </div>
+                        <div class="col-sm">
+                            <button class="btn btn-primary" id='dropRegister'>Register</button>
+                            
+                        </div>
+                      </div>
+                    </div>
             </div>
           </div>
         </nav>
@@ -68,6 +80,7 @@
         <input type="password" class="form-control" name='password' id="password" placeholder="Password">
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
+      <p style="color: red" id="alertRegister">Email sudah digunakan</p>
     </form>
     <form action="" id="nationality">
       <div class="form-group">

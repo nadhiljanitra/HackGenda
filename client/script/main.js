@@ -3,6 +3,9 @@ $(document).ready(test =>{
   $('#nationality').hide()
   $('#arrayInput').hide()
   // $('#signout').hide()
+  $('#register').hide()
+  $('#alertEmail').hide()
+  $('#alertRegister').hide()
  })
 
 
@@ -27,12 +30,15 @@ function onSignIn(googleUser) {
     localStorage.setItem("email", email)
     $('#nationality').show()
     $('#signout').show()
-    $('#sigin').hide()
+    $('#signin').hide()
   })
-  .fail(()=>{
+  .fail((msg)=>{
     console.log('object');
+    $('#alertEmail').show()
+    $('#signin').hide()
+    console.log(msg)
     // alert('belum terregister')
-    location.reload()
+    // location.reload()
   })
   .always()
 }
@@ -102,9 +108,22 @@ $('#register').on('submit',function(e){
   })
   .done((user)=>{
     console.log(user);
+    $('#register').hide()
+    $('#alertEmail').hide()
+    $('#signin').show()
   })
-  .fail()
+  .fail((msg)=>{
+    console.log("adadasd___----------------->>>");
+   
+    $('#alertRegister').show()
+    console.log(msg)
+  })
   .always(()=>{
-    console.log("masuk always------------>");
+    // console.log("masuk always------------>");
   })
 })
+
+$('#dropRegister').click(()=>{
+  $('#register').show()
+})
+

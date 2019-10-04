@@ -22,9 +22,12 @@ class Hackgenda{
       })
       .then(user=>{
         if (user){
+          console.log(user);
+          console.log("user ditemukan----------->>>>");
           let token = jwt.generateToken(payloadJWT,'hackgendaSALT')
           res.status(200).json(token)
         } else {
+          console.log("user gagal===============>>>>");
           next({status : 500,msg :'gagal'})
         }
       })
@@ -69,13 +72,21 @@ class Hackgenda{
 
   static register(req,res,next){
     let {email,password} = req.body
-    userModel.create({email,password})
-      .then((user)=>{
-        res.status(200).json(user)
-      })
-      .catch((err)=>{
-        res.status(500).json(err)
-      })
+    userModel.findOne({email})
+    .then((username)=>{
+      if(username){
+
+        next({status : 500,msg :'gagal'})
+      } else {
+        return  userModel.create({email,password})
+      }
+    })
+    .then((user)=>{
+      res.status(200).json(user)
+    })
+    .catch((err)=>{
+      res.status(500).json(err)
+    })
   }
 
   static update (req, res) {
@@ -97,5 +108,6 @@ class Hackgenda{
   }
 
 }
+
 
 module.exports = Hackgenda;

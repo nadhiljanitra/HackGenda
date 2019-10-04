@@ -4,10 +4,12 @@
     $('#restaurantId').hide()
     $('#signout').hide()
     
+    $('#register').hide();
     $('#btn-show').hide();
     $('#btnsearch').hide(); 
     $('.searchName').hide();
     $('#dropdownMenuButton').hide();
+    $('#alertRegister').hide();
 
     function showRestaurants () {
         $('#main-content').empty();
@@ -94,6 +96,7 @@ function showReviews(id){
 
 var temp = []
 
+
 function myFunction(name){
     console.log(name)
     $('.dropdown-menu').empty()
@@ -129,7 +132,27 @@ function checkout(){
             </div>
         `)
     }
-    temp=[]
+    // console.log(temp)
+    let date = temp[0]
+    let restaurants = JSON.stringify(temp.slice(1))
+    console.log(date, restaurants)
+    $.ajax(
+        {
+           method: "POST",
+           url: "http://localhost:3000/checkout",
+           data: {
+               date,
+               restaurants,
+               token: localStorage.getItem("token")
+           }
+        }
+    )
+        .then( (data) => {
+            console.log(data)
+            temp = []
+            $('.dropdown-menu').empty();
+        })
+        .catch(console.log)
 }
 
 function searchFunction(){
@@ -152,7 +175,8 @@ function searchFunction(){
                         <p class="card-text">Reviews count ${restaurants[i].reviews.reviews.length}</p>
                         <p class='card-text'>${restaurants[i].location.address}</p>
                         <p class='card-text'>${restaurants[i].phoneNumber}<br></p>
-                        <p class='card-text'>${restaurants[i].avgcft}<br></p>
+                        <p class='card-text'>${restaurants[i].avgcft}<br>kurs : ${currency}</p> 
+                        <p class='card-text'>Total ${Math.round(restaurants[i].avgcft*currency)}</p>
                         <a  onclick='showImg(${restaurants[i].id})'><button type="button" class="btn btn-outline-secondary")>Show Image</button></a>
                         <a  onclick='showReviews(${restaurants[i].id})'><button type="button" class="btn btn-outline-secondary")>Reviews</button></a>
                         </div>
@@ -255,14 +279,17 @@ $(document).ready(test =>{
       $('#dropdownMenuButton').show();   
       $('#btnsearch').show(); 
       $('#btn-show').show();
-
+      
+      $('#dropRegister').hide();
+      $('#register').hide();
       $('#nationality').show()
       $('#signout').show()
       $('#signin').hide()
     })
     .fail((msg)=>{
       console.log('object');
-      $('#alertEmail').show()
+      $('#alertEmail').show();
+      $('#signin').hide()
       console.log(msg)
       // alert('belum terregister')
       // location.reload()
@@ -336,10 +363,14 @@ $(document).ready(test =>{
     })
     .done((user)=>{
       console.log(user);
-      $('#register').hide()
+      $('#register').show();
+      $('#alertEmail').hide()
+      $('#signin').show()
     })
     .fail((msg)=>{
-      console.log(msg)
+        console.log("adadasd___----------------->>>");
+        $('#alertRegister').show()
+        console.log(msg)
     })
     .always(()=>{
       console.log("masuk always------------>");

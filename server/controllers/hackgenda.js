@@ -72,15 +72,42 @@ class Hackgenda{
 
   static register(req,res,next){
     let {email,password} = req.body
-    userModel.create({email,password})
-      .then((user)=>{
-        res.status(200).json(user)
+    userModel.findOne({email})
+    .then((username)=>{
+      if(username){
+
+        next({status : 500,msg :'gagal'})
+      } else {
+        return  userModel.create({email,password})
+      }
+    })
+    .then((user)=>{
+      res.status(200).json(user)
+    })
+    .catch((err)=>{
+      res.status(500).json(err)
+    })
+  }
+
+  static update (req, res) {
+    let { date, restaurants, token } = req.body;
+    let decoded = jwt.verifyToken(token)
+    userModel.findOneAndUpdate({email:decoded.email},
+      {
+        $push:{
+          date: date,
+          restaurant: restaurants
+        }
       })
-      .catch((err)=>{
-        res.status(500).json(err)
-      })
+    .then ( () => {
+      console.log("sukses update")
+    })
+    .catch ( err => {
+      console.log(err)
+    })
   }
 
 }
+
 
 module.exports = Hackgenda;

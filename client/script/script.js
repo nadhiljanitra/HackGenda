@@ -10,7 +10,7 @@ function showList() {
         for (let i = 0; i < result.length; i++) {
             $("#loop-date").append(`
             <div id="submit-date">
-                <div class="card hitter p-2 border-bottom light-gray-bg">
+                <div class="card hitter p-2 border-bottom light-gray-bg" id="dateCard">
                     <div class="col lm-6">
                         <h5 class="card-title">${result[i].name}</h5>
                         <div>
@@ -35,10 +35,6 @@ function showList() {
     });
 }
 
-// $(document).ready( () => {
-
-// })
-
 function submitDate (date) {
     console.log(date)
     $.ajax(
@@ -60,28 +56,3 @@ function submitDate (date) {
         console.log("masuk always");    
     })
 }
-
-// $("#btn-submit").on("click", (e) => {
-//     console.log('msduk')
-//     e.preventDefault();
-//     let tanggal = $("#tanggal").val()
-//     $.ajax(
-//         {
-//             method: "POST",
-//             url: "http://localhost:3000/dates",
-//             data: {
-//                 tanggal: tanggal
-//             }
-//         }
-//     )
-//     .done( tanggal => {
-//         console.log(tanggal);   
-//     })
-//     .fail( err => {
-//         console.log(err)
-//     })
-//     .always( () => {
-//         console.log("masuk always");    
-//     })
-    
-// })

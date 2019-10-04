@@ -22,9 +22,12 @@ class Hackgenda{
       })
       .then(user=>{
         if (user){
+          console.log(user);
+          console.log("user ditemukan----------->>>>");
           let token = jwt.generateToken(payloadJWT,'hackgendaSALT')
           res.status(200).json(token)
         } else {
+          console.log("user gagal===============>>>>");
           next({status : 500,msg :'gagal'})
         }
       })

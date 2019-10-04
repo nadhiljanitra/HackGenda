@@ -3,15 +3,23 @@ if(process.env.NODE_ENV=='development'){
 }
 
 const cors = require('cors');
-const express = require('express');
-const app = express();
-const PORT = process.env.PORT || 3000;
-const index = require('./routes/index');
+const mongoose = require('mongoose')
+const express = require('express')
+const morgan = require('morgan')
+const route = require('./routes')
+const app = express()
+const PORT = process.env.PORT || 3000
 
-app.use(express.urlencoded({extended:false}));
-app.use(express.json());
+app.use(cors())
+app.use(morgan("dev"))
 
-app.use(cors());
-app.use('/',index)
+app.use(express.json())
+app.use(express.urlencoded({extended:false}))
 
-app.listen(PORT, ()=> console.log(`Listening on PORT ${PORT}`))
+mongoose.connect('mongodb://localhost/HackGenda',{useNewUrlParser:true,useUnifiedTopology:true})
+
+app.use('/',route)
+
+app.listen(PORT,()=>{
+  console.log('airing on '+PORT)
+})

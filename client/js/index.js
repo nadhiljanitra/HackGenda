@@ -1,6 +1,7 @@
 // $(document).ready(function(){
     $('#main-content').empty()
     $('#second-content').empty()
+    $('#restaurantId').hide()
     function showRestaurants () {
         $('#main-content').empty();
         $('#second-content').empty();
@@ -86,23 +87,40 @@ function showReviews(id){
 var temp = []
 
 function myFunction(name){
+    console.log(name)
     $('.dropdown-menu').empty()
     temp.push(name)
     for(let i=0;i<temp.length;i++){
         $('.dropdown-menu').append(`
-            <a class="dropdown-item ${temp[i]}" onclick='removeItem()' >${temp[i]}</a>
+            <a class="dropdown-item" onclick='removeItem()'>${temp[i]}</a>
         `)
     }
     $('.dropdown-menu').append(`
     <a class='dropdown-item'><button type="button" onclick="removeItem()">Reset All</button></a>
-    
+    <a class='dropdown-item'><button type='button' onclick="checkout()"> Check Out</button></a>
     `)
 }
 
 function removeItem() {
     $(`.dropdown-item`).empty();
+    $('#restaurantId').hide();
 }
 
+function checkout(){
+    $('#main-content').empty();
+
+    for( let i=1;i<temp.length;i++ ){
+        $('#main-content').append(`
+            <div class="card w-50">
+                <div class="card-body">
+                <h5 class="card-title">Date : ${temp[0]} </h5>
+            <p class="card-text">${temp[i]}</p>
+                <a href="#" class="btn btn-primary">Button</a>
+                </div>
+            </div>
+        `)
+    }
+}
 
 function searchFunction(){
     let name = $('.searchName').val()
@@ -115,6 +133,56 @@ function searchFunction(){
         })
 }
 
+function showList() {
+    $.ajax (
+        {
+            method: "GET",
+            url: "http://localhost:3000/dates"
+        }
+    )
+    .then((result) => {
+        console.log(result)
+        $('#main-content').show()
+        $('#main-content').empty()
+        for (let i = 0; i < result.length; i++) {
+            $("#main-content").append(`
+            <div id="submit-date">
+                <div class="card hitter p-2 border-bottom light-gray-bg" id="dateCard">
+                    <div class="col lm-6">
+                        <h5 class="card-title">${result[i].name}</h5>
+                        <div>
+                            <p class="card-text" id="tanggal">${result[i]["date"].iso}</p>
+                        </div>
+                        <div>
+                            <span href="#" class="card-link">type: ${result[i]["type"][0]}</span>
+                        </div>
+                        </br>
+                        <div>
+                            <button class ="btn btn-primary" id="btn-submit" style="margin-bottom: 1rem" onclick="submitDate('${result[i]["date"].iso}')">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `)
+        }
+        // submitDate()
+    })
+    .catch((err) => {
+        console.log(err)
+    });
+}
+
+
+function submitDate (date) {
+    console.log(date)
+    $('#dropdown-menu').empty()
+    temp.push(date)
+    $('#dropdown-menu').append(`
+        <a class='dropdown-list'>${temp}</a>
+    `)
+    $('#main-content').hide()
+    $('#restaurantId').show()
+}
 
 
 

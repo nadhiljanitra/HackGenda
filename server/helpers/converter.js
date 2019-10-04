@@ -7,7 +7,7 @@ function change(nation){
         return 'CAD'
     break;
     case "China":
-        return 'CNH'
+        return 'CNY'
     break;
     case "Europian Union":
         return 'EUR'
@@ -51,6 +51,8 @@ function change(nation){
     case "Vietnam":
         return 'VND'
     break;
+    case "Indonesia":
+        return 'IDR'
     default:
       break;
   }

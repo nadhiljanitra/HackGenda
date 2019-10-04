@@ -86,6 +86,7 @@ function showReviews(id){
 
 var temp = []
 
+
 function myFunction(name){
     console.log(name)
     $('.dropdown-menu').empty()
@@ -120,6 +121,25 @@ function checkout(){
             </div>
         `)
     }
+    // console.log(temp)
+    let date = temp[0]
+    let restaurants = JSON.stringify(temp.slice(1))
+    console.log(date, restaurants)
+    $.ajax(
+        {
+           method: "POST",
+           url: "http://localhost:3000/checkout",
+           data: {
+               date,
+               restaurants,
+               token: localStorage.getItem("token")
+           }
+        }
+    )
+        .then( (data) => {
+            console.log(data)
+            temp = []
+        })
 }
 
 function searchFunction(){

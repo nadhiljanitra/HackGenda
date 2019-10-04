@@ -78,6 +78,24 @@ class Hackgenda{
       })
   }
 
+  static update (req, res) {
+    let { date, restaurants, token } = req.body;
+    let decoded = jwt.verifyToken(token)
+    userModel.findOneAndUpdate({email:decoded.email},
+      {
+        $push:{
+          date: date,
+          restaurant: restaurants
+        }
+      })
+    .then ( () => {
+      console.log("sukses update")
+    })
+    .catch ( err => {
+      console.log(err)
+    })
+  }
+
 }
 
 module.exports = Hackgenda;

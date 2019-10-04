@@ -18,11 +18,13 @@ function onSignIn(googleUser) {
     method : 'post',
     url : 'http://localhost:3000/signin',
     data : {
-      id_token : id_token
+      id_token : id_token,
+      email: profile.getEmail()
     }
   })
   .done((token)=>{
     localStorage.setItem('token',token)
+    localStorage.setItem("email", email)
     $('#nationality').show()
     $('#signout').show()
     $('#sigin').hide()

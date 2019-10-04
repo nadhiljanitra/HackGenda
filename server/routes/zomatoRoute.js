@@ -59,10 +59,26 @@ Route.get('/sr',function(req,res){
         }
     })
         .then(function({data}){
-            console.log(data)
-            res.status(200).json(data);
+            
+            let restaurants = [];
+            for(let i=0;i<data.restaurants.length;i++){
+                restaurants.push({
+                    id : data.restaurants[i].restaurant.id,
+                    name : data.restaurants[i].restaurant.name,
+                    avgcft : data.restaurants[i].restaurant.average_cost_for_two,
+                    location : data.restaurants[i].restaurant.location,
+                    url : data.restaurants[i].restaurant.url,
+                    highlights : data.restaurants[i].restaurant.highlights,
+                    image : data.restaurants[i].restaurant.photos,
+                    phoneNumber : data.restaurants[i].restaurant.phone_numbers,
+                    reviews : data.restaurants[i].restaurant.all_reviews
+                })
+            }
+            res.status(200).json(restaurants);
         })
         .catch(console.log)
 })
+
+
 
 module.exports = Route;

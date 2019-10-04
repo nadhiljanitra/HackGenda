@@ -22,9 +22,12 @@ class Hackgenda{
       })
       .then(user=>{
         if (user){
+          console.log(user);
+          console.log("user ditemukan----------->>>>");
           let token = jwt.generateToken(payloadJWT,'hackgendaSALT')
           res.status(200).json(token)
         } else {
+          console.log("user gagal===============>>>>");
           next({status : 500,msg :'gagal'})
         }
       })
@@ -36,7 +39,7 @@ class Hackgenda{
   static getCurrency(req,res,next){
     let negara = req.body.negara
     let currency = convert(negara)
-    let harga = 1000000 // ini diganti sama harga masing-masing
+    // let harga = 1000000 // ini diganti sama harga masing-masing
     axios({
       method:"GET",
       url:"https://currency-exchange.p.rapidapi.com/exchange",
@@ -52,8 +55,8 @@ class Hackgenda{
       }
       })
       .then((newCurrency)=>{
-        let convert = newCurrency.data * harga 
-        res.status(200).json(convert)
+        // let convert = newCurrency.data *
+        res.status(200).json(newCurrency.data)
       })
       .catch((error)=>{
         res.status(500).json(error)

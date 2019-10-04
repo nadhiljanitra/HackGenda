@@ -75,6 +75,7 @@ class Hackgenda{
     userModel.findOne({email})
     .then((username)=>{
       if(username){
+
         next({status : 500,msg :'gagal'})
       } else {
         return  userModel.create({email,password})
@@ -89,5 +90,6 @@ class Hackgenda{
   }
 
 }
+
 
 module.exports = Hackgenda;
